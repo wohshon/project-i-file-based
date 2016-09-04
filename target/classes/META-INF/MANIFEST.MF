@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1472927075762
+Build-Jdk: 1.8.0_65
+Built-By: virtuser
+Bundle-Description: IHIS POC
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: File Base HL7
+Bundle-SymbolicName: com.demo.ihis-file-hl7
+Bundle-Version: 1.0.0
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.demo.ihis.ws;version="1.0.0"
+Originally-Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-1.50.0

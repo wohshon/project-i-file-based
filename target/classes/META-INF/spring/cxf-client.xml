@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+       http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+       ">
+
+<!--   <http:conduit name="{http://ws.ihis.demo.com}BackEndWebServicePort.http-conduit">
+ -->  <http:conduit name="*.http-conduit">
+    <http:tlsClientParameters disableCNCheck="true">
+      <sec:keyManagers keyPassword="password">
+          <sec:keyStore password="password" type="JKS"
+          resource="certs/client.ts" />
+      </sec:keyManagers>
+      
+      <sec:trustManagers>
+          <sec:keyStore password="password" type="JKS"
+          resource="certs/server.ks" />
+      </sec:trustManagers>
+      <sec:cipherSuitesFilter>
+        <sec:include>.*_WITH_3DES_.*</sec:include>
+        <sec:include>.*_WITH_DES_.*</sec:include>
+        <sec:exclude>.*_WITH_NULL_.*</sec:exclude>
+        <sec:exclude>.*_DH_anon_.*</sec:exclude>
+      </sec:cipherSuitesFilter>
+    </http:tlsClientParameters>
+   </http:conduit>
+
+</beans>
