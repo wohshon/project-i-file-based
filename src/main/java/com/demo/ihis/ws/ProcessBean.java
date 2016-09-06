@@ -14,7 +14,15 @@ public class ProcessBean {
 		String s=exchange.getIn().getBody(String.class);
 		return s;
 	}
-	public SOAPMessage enrich(Exchange exchange) {
+	
+	public String[] convertFromMED(Exchange exchange) {
+		String s=exchange.getIn().getBody(String.class);
+		String[] ss={s};
+		//s+="------------------------";
+
+		return ss;
+	}
+	public SOAPMessage process(Exchange exchange) {
 		SOAPMessage soapMessage=null;
 		try {
 			soapMessage = MessageFactory.newInstance().createMessage();

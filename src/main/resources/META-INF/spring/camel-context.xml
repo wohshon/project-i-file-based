@@ -30,7 +30,6 @@
        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
        http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
        http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-
      ">
 
 <cxf:cxfEndpoint id="soapMessageEndpoint"
@@ -41,7 +40,8 @@
                  address="http://localhost:8181/cxf/test"/>   
  --><bean id="testBean" class="com.demo.ihis.ws.ProcessBean"/>     
 <!--   <http:conduit name="{http://ws.ihis.demo.com}BackEndWebServicePort.http-conduit">
- -->  <http:conduit name="*.http-conduit">
+ -->  
+ <http:conduit name="*.http-conduit">
     <http:tlsClientParameters disableCNCheck="true">
       <sec:keyManagers keyPassword="password">
           <sec:keyStore password="password" type="JKS"
@@ -60,18 +60,45 @@
       </sec:cipherSuitesFilter>
     </http:tlsClientParameters>
    </http:conduit>              
+   
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+        <property name="url" value="jdbc:mariadb://localhost:3306/demodb" />
+        <property name="username" value="demouser" />
+        <property name="password" value="password" />
+    </bean>
+       
     <camelContext  xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://fabric8.com/examples/order/v7" typeConverterStatisticsEnabled="true">
 	 	<route>
        		<from uri="file:///home/virtuser/projects/ihis/data?noop=true"/>
        		<log message="${body}"/>
+       		<!-- got incoming message, convert to java -->
+       		 <to uri="bean:testBean?method=convertFromMED"/>
+       		 		<log message="${body[0]}"/>
        		<!-- call db -->
        		
-       		<!-- call backend ws -->
-		      <!-- log answer from real web service -->
 		      <log message="called"/>
-		      <to uri="bean:testBean?method=convert"/>
-		       <to uri="cxf:bean:soapMessageEndpoint" />
+<!-- 		      <to uri="bean:testBean?method=convert"/>
+ -->              <wireTap uri="direct:tap"/>
+              <log message="${body[0]}"/>
+          <!-- call backend ws -->
+          <!-- log answer from real web service -->
+	   <to uri="cxf:bean:soapMessageEndpoint" />
              		
         </route>
+          <route>
+            <from uri="direct:tap"/>
+            <log message="saving to db"/>
+                  <setHeader headerName="payload"> 
+                  <simple>${body[0]}</simple> 
+                  </setHeader>
+                  <setBody>
+                    <constant>
+                      insert into audit (payload) values (:?payload);
+                    </constant>
+                  </setBody>
+                  <to uri="jdbc:dataSource?useHeadersAsParameters=true"/>
+          </route>
     </camelContext>
 </beans>
