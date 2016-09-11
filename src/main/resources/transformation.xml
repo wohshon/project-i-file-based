@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <configuration>
+        <wildcard>false</wildcard>
+    </configuration>
+    <mapping>
+        <class-a>com.demo.ihis.entity.MedObjectImpl</class-a>
+        <class-b>com.mohh.nehr.PutOrderedMedications</class-b>
+        <field>
+            <a>field3</a>
+            <b>controlHeader.srcInstitution</b>
+        </field>
+        <field>
+            <a>field2</a>
+            <b>controlHeader.srcApplication</b>
+        </field>
+        <field>
+            <a date-format="yyyy-MM-dd HH:mm:ss">now</a>
+            <b>controlHeader.msgDateTime</b>
+        </field>
+        <field>
+            <a>field8</a>
+            <b>patient.identification.id</b>
+        </field>
+        <field>
+            <a>field8</a>
+            <b>patient.identification.mrnNumber</b>
+        </field>
+        <field>
+            <a>field9</a>
+            <b>patient.identification.type</b>
+        </field>
+        <field>
+            <a>field10</a>
+            <b>patient.name.value</b>
+        </field>
+        <field>
+            <a>field11</a>
+            <b>patient.name.title</b>
+        </field>
+    </mapping>
+    <mapping>
+        <class-a>org.apache.camel.component.dozer.VariableMapper</class-a>
+        <class-b>com.mohh.nehr.PutOrderedMedications</class-b>
+    </mapping>
+</mappings>

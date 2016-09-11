@@ -1,53 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    JBoss, Home of Professional Open Source
-    Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
-    contributors by the @authors tag. See the copyright.txt in the
-    distribution for a full listing of individual contributors.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
--->
-<!-- Configures the Camel Context-->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:camel="http://camel.apache.org/schema/spring"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:cxf="http://camel.apache.org/schema/cxf"
        xmlns:sec="http://cxf.apache.org/configuration/security"
-       xmlns:http="http://cxf.apache.org/transports/http/configuration"       
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
        http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
-       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-     ">
-
-<cxf:cxfEndpoint id="soapMessageEndpoint"
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+       <!-- <cxf:cxfEndpoint id="soapMessageEndpoint"
                  serviceClass="com.demo.ihis.ws.BackEndWebService"
-                 address="https://localhost:8443/cxf/test"/>   
-<!-- <cxf:cxfEndpoint id="soapMessageEndpoint"
-                 serviceClass="com.demo.ihis.ws.BackEndWebService"
-                 address="http://localhost:8181/cxf/test"/>   
- --><bean id="testBean" class="com.demo.ihis.ws.ProcessBean"/>     
-<!--   <http:conduit name="{http://ws.ihis.demo.com}BackEndWebServicePort.http-conduit">
- -->  
+                 address="http://localhost:8181/cxf/test"/>
+		 -->
+		  <bean id="processBean" class="com.demo.ihis.ws.ProcessBean"/>
+			<cxf:cxfEndpoint id="soapMessageEndpoint"
+			serviceClass="com.demo.ihis.ws.BackEndWebService"
+			address="https://localhost:8443/cxf/test"
+			/>
+<!--
+ <http:conduit name="{http://ws.ihis.demo.com}BackEndWebServicePort.http-conduit">
+ -->
  <http:conduit name="*.http-conduit">
     <http:tlsClientParameters disableCNCheck="true">
       <sec:keyManagers keyPassword="password">
           <sec:keyStore password="password" type="JKS"
           resource="certs/client.ts" />
       </sec:keyManagers>
-      
+
       <sec:trustManagers>
           <sec:keyStore password="password" type="JKS"
           resource="certs/client.ts" />
@@ -59,8 +43,7 @@
         <sec:exclude>.*_DH_anon_.*</sec:exclude>
       </sec:cipherSuitesFilter>
     </http:tlsClientParameters>
-   </http:conduit>              
-   
+   </http:conduit>
     <bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.mariadb.jdbc.Driver" />
@@ -68,37 +51,37 @@
         <property name="username" value="demouser" />
         <property name="password" value="password" />
     </bean>
-       
-    <camelContext  xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://fabric8.com/examples/order/v7" typeConverterStatisticsEnabled="true">
-	 	<route>
-       		<from uri="file:///home/virtuser/projects/ihis/data?noop=true"/>
-       		<log message="${body}"/>
-       		<!-- got incoming message, convert to java -->
-       		 <to uri="bean:testBean?method=convertFromMED"/>
-       		 		<log message="${body[0]}"/>
-       		<!-- call db -->
-       		
-		      <log message="called"/>
-<!-- 		      <to uri="bean:testBean?method=convert"/>
- -->              <wireTap uri="direct:tap"/>
-              <log message="${body[0]}"/>
-          <!-- call backend ws -->
-          <!-- log answer from real web service -->
-	   <to uri="cxf:bean:soapMessageEndpoint" />
-             		
-        </route>
-          <route>
-            <from uri="direct:tap"/>
-            <log message="saving to db"/>
-                  <setHeader headerName="payload"> 
-                  <simple>${body[0]}</simple> 
-                  </setHeader>
-                  <setBody>
-                    <constant>
+
+ <!--     <wireTap uri="direct:tap"/>
+ --><!-- <to uri="cxf:bean:soapMessageEndpoint"/> --><camelContext typeConverterStatisticsEnabled="true" xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://fabric8.com/examples/order/v7">
+  <endpoint uri="dozer:java_xml?sourceModel=com.demo.ihis.entity.MedObjectImpl&amp;targetModel=com.mohh.nehr.PutOrderedMedications&amp;marshalId=commohhnehr&amp;mappingFile=transformation.xml" id="java_xml"/>
+  <dataFormats>
+    <jaxb contextPath="com.mohh.nehr" id="commohhnehr"/>
+  </dataFormats>
+  <route>
+    <from uri="file:///home/virtuser/projects/ihis/data/file?noop=true"/>
+    <log message="${body}"/>
+    <to uri="bean:processBean?method=convertToPOJO"/>
+    <log message="${body}"/>
+    <to ref="java_xml"/>
+    <log message="called"/>
+    <log message="${body}"/>
+    <to uri="bean:processBean?method=convert"/>
+  </route>
+  <route>
+    <from uri="direct:tap"/>
+    <log message="saving to db"/>
+    <setHeader headerName="payload">
+      <simple>${body}</simple>
+    </setHeader>
+    <setBody>
+      <constant>
                       insert into audit (payload) values (:?payload);
                     </constant>
-                  </setBody>
-                  <to uri="jdbc:dataSource?useHeadersAsParameters=true"/>
-          </route>
-    </camelContext>
-</beans>
+    </setBody>
+    <to uri="jdbc:dataSource?useHeadersAsParameters=true"/>
+  </route>
+</camelContext>
+       
+       
+   </beans>

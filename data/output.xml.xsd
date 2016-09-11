@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.mohh.com/nehr" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="putOrderedMedications">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="controlHeader">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="srcInstitution"/>
+              <xs:element type="xs:string" name="srcApplication"/>
+              <xs:element type="xs:int" name="msgID"/>
+              <xs:element type="xs:int" name="msgSequenceID"/>
+              <xs:element type="xs:dateTime" name="msgDateTime"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="patient">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="identification">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="id"/>
+                    <xs:element type="xs:string" name="MRNNumber"/>
+                    <xs:element type="xs:string" name="type"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="name">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="value"/>
+                    <xs:element type="xs:string" name="title"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="aliasName">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="value"/>
+                    <xs:element type="xs:string" name="title"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="contactDetails">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="address">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="type"/>
+                          <xs:element type="xs:string" name="streetLine1"/>
+                          <xs:element type="xs:string" name="streetLine2"/>
+                          <xs:element type="xs:string" name="streetLine3"/>
+                          <xs:element type="xs:string" name="streetLine4"/>
+                          <xs:element type="xs:string" name="city"/>
+                          <xs:element type="xs:string" name="country"/>
+                          <xs:element type="xs:int" name="postalCode"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="phone" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="type">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:enumeration value="HOME"/>
+                                <xs:enumeration value="MOBILE"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element type="xs:string" name="countryCode"/>
+                          <xs:element type="xs:string" name="areaCode"/>
+                          <xs:element name="phoneNumber">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:enumeration value="11112287"/>
+                                <xs:enumeration value="11111003 DAU"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element type="xs:string" name="extensionNumber"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:date" name="dateOfBirth"/>
+              <xs:element type="xs:string" name="countryOfBirth"/>
+              <xs:element type="xs:string" name="gender"/>
+              <xs:element type="xs:string" name="emailAddress"/>
+              <xs:element type="xs:string" name="nationality"/>
+              <xs:element type="xs:string" name="race"/>
+              <xs:element type="xs:string" name="residencyStatus"/>
+              <xs:element type="xs:string" name="language"/>
+              <xs:element type="xs:string" name="maritalStatus"/>
+              <xs:element type="xs:string" name="occupation"/>
+              <xs:element type="xs:string" name="VIPFlag"/>
+              <xs:element type="xs:string" name="VVIPFlag"/>
+              <xs:element type="xs:string" name="religion"/>
+              <xs:element name="nextOfKin">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="name"/>
+                    <xs:element type="xs:string" name="phone"/>
+                    <xs:element type="xs:string" name="relationship"/>
+                    <xs:element type="xs:string" name="email"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="medicationOrder">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="eventID"/>
+              <xs:element type="xs:string" name="orderID"/>
+              <xs:element type="xs:string" name="orderingInstitution"/>
+              <xs:element name="orderType">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="code"/>
+                    <xs:element type="xs:string" name="codingSchemeName"/>
+                    <xs:element type="xs:string" name="codingSchemeVersion"/>
+                    <xs:element type="xs:string" name="textDescription"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="reasonForCancellation">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="code"/>
+                    <xs:element type="xs:string" name="codingSchemeName"/>
+                    <xs:element type="xs:string" name="codingSchemeVersion"/>
+                    <xs:element type="xs:string" name="textDescription"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="orderStatus">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="code"/>
+                    <xs:element type="xs:string" name="codingSchemeName"/>
+                    <xs:element type="xs:string" name="codingSchemeVersion"/>
+                    <xs:element type="xs:string" name="textDescription"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="orderedBy">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="id"/>
+                    <xs:element type="xs:string" name="name"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="authorizedBy">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="id"/>
+                    <xs:element type="xs:string" name="name"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="medicationItem">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="itemId"/>
+                    <xs:element type="xs:byte" name="sequenceNo"/>
+                    <xs:element type="xs:string" name="groupNo"/>
+                    <xs:element type="xs:string" name="groupSequenceNo"/>
+                    <xs:element type="xs:string" name="orderSetConnectingTerm"/>
+                    <xs:element type="xs:string" name="frequencyQualifier"/>
+                    <xs:element type="xs:string" name="dosageInstruction"/>
+                    <xs:element name="doseQuantity">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:byte" name="lowValue"/>
+                          <xs:element type="xs:string" name="lowUnit"/>
+                          <xs:element type="xs:string" name="highUnit"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:dateTime" name="medicationItemOrderedDate"/>
+                    <xs:element type="xs:dateTime" name="medicationStartDateTime"/>
+                    <xs:element type="xs:dateTime" name="medicationEndDateTime"/>
+                    <xs:element name="medicationItemStatus">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="reasonForMedication">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="changesMade">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="reasonForChanges">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" name="quantityOrderedUnits"/>
+                    <xs:element name="duration">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:byte" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" name="durationUnits"/>
+                    <xs:element name="medicationName">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:long" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="frequency">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="routeOfAdministration">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element type="xs:string" name="medicationStrength"/>
+                    <xs:element type="xs:string" name="medicationStrengthUnit"/>
+                    <xs:element type="xs:string" name="additionalDosageInstruction"/>
+                    <xs:element name="doseForm">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="code"/>
+                          <xs:element type="xs:string" name="codingSchemeName"/>
+                          <xs:element type="xs:string" name="codingSchemeVersion"/>
+                          <xs:element type="xs:string" name="textDescription"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
