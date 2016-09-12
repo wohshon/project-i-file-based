@@ -1,12 +1,21 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1468411986527
+Bnd-LastModified: 1473663507392
 Build-Jdk: 1.8.0_92
-Built-By: lhein
-Bundle-Description: Camel Content-Based Router Example
+Built-By: virtuser
+Bundle-Description: IHIS POC
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
 Bundle-ManifestVersion: 2
-Bundle-Name: Fuse CBR Quickstart
-Bundle-SymbolicName: camel-spring-cbr
-Bundle-Version: 1.0.0.SNAPSHOT
+Bundle-Name: File Base HL7
+Bundle-SymbolicName: com.demo.ihis-file-hl7
+Bundle-Version: 1.0.0
 Created-By: Apache Maven Bundle Plugin
+Export-Package: com.demo.ihis.entity;version="1.0.0",com.demo.ihis.ws;us
+ es:="javax.xml.soap,org.apache.camel,com.demo.ihis.entity";version="1.0
+ .0",com.mohh.nehr;uses:="javax.xml.bind.annotation,javax.xml.datatype";
+ version="1.0.0",org.jboss.tools.fuse.transformation.editor.function;ver
+ sion="1.0.0"
+Import-Package: javax.xml.bind.annotation,javax.xml.datatype,javax.xml.s
+ oap,org.apache.camel;version="[2.15,3)",org.mariadb.jdbc,org.springfram
+ ework.jdbc.datasource
+Originally-Created-By: Apache Maven Bundle Plugin
 Tool: Bnd-1.50.0

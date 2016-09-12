@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
-      <version>1.2.0</version>
+      <version>1.4.6</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -155,7 +155,9 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
+            <Private-Package>com.mohh.nehr.*</Private-Package>
             <Import-Package>org.mariadb.jdbc,*</Import-Package>
+<!--             <Export-Package>com.mohh.nehr.*</Export-Package> -->
           </instructions>
         </configuration>
       </plugin>

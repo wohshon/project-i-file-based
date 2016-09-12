@@ -45,29 +45,33 @@
     </http:tlsClientParameters>
    </http:conduit>
     <bean id="dataSource"
-        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+        class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.mariadb.jdbc.Driver" />
         <property name="url" value="jdbc:mariadb://localhost:3306/demodb" />
         <property name="username" value="demouser" />
         <property name="password" value="password" />
     </bean>
 
- <!--     <wireTap uri="direct:tap"/>
- --><!-- <to uri="cxf:bean:soapMessageEndpoint"/> --><camelContext typeConverterStatisticsEnabled="true" xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://fabric8.com/examples/order/v7">
+<camelContext typeConverterStatisticsEnabled="true" xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://fabric8.com/examples/order/v7">
   <endpoint uri="dozer:java_xml?sourceModel=com.demo.ihis.entity.MedObjectImpl&amp;targetModel=com.mohh.nehr.PutOrderedMedications&amp;marshalId=commohhnehr&amp;mappingFile=transformation.xml" id="java_xml"/>
   <dataFormats>
     <jaxb contextPath="com.mohh.nehr" id="commohhnehr"/>
   </dataFormats>
   <route>
-    <from uri="file:///home/virtuser/projects/ihis/data/file?noop=true"/>
+<!--     <from uri="file:///home/virtuser/projects/ihis/data/file?noop=true"/>
+ -->   
+    <from uri="file:///tmp/hl7-example/?delete=true&amp;moveFailed=.error&amp;antInclude=*.med"/>
     <log message="${body}"/>
     <to uri="bean:processBean?method=convertToPOJO"/>
     <log message="${body}"/>
     <to ref="java_xml"/>
     <log message="called"/>
     <log message="${body}"/>
+     <wireTap uri="direct:tap"/>
+     
     <to uri="bean:processBean?method=convert"/>
-  </route>
+    <to uri="cxf:bean:soapMessageEndpoint"/>
+   </route>
   <route>
     <from uri="direct:tap"/>
     <log message="saving to db"/>
