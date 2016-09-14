@@ -347,7 +347,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *                                 &lt;complexContent>
  *                                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *                                     &lt;sequence>
- *                                       &lt;element name="code" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *                                       &lt;element name="code" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *                                       &lt;element name="codingSchemeName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *                                       &lt;element name="codingSchemeVersion" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *                                       &lt;element name="textDescription" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -2909,7 +2909,7 @@ public class PutOrderedMedications {
             })
             public static class MedicationName {
 
-                protected long code;
+                protected String code;
                 @XmlElement(required = true)
                 protected String codingSchemeName;
                 @XmlElement(required = true)
@@ -2921,7 +2921,7 @@ public class PutOrderedMedications {
                  * Gets the value of the code property.
                  * 
                  */
-                public long getCode() {
+                public String getCode() {
                     return code;
                 }
 
@@ -2929,7 +2929,7 @@ public class PutOrderedMedications {
                  * Sets the value of the code property.
                  * 
                  */
-                public void setCode(long value) {
+                public void setCode(String value) {
                     this.code = value;
                 }
 
