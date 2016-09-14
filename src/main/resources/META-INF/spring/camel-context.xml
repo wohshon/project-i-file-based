@@ -52,14 +52,13 @@
         <property name="password" value="password" />
     </bean>
 
-<camelContext typeConverterStatisticsEnabled="true" xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://fabric8.com/examples/order/v7">
+<!--     <from uri="file:///home/virtuser/projects/ihis/data/file?noop=true"/>
+ --><camelContext typeConverterStatisticsEnabled="true" xmlns="http://camel.apache.org/schema/spring" xmlns:order="http://fabric8.com/examples/order/v7">
   <endpoint uri="dozer:java_xml?sourceModel=com.demo.ihis.entity.MedObjectImpl&amp;targetModel=com.mohh.nehr.PutOrderedMedications&amp;marshalId=commohhnehr&amp;mappingFile=transformation.xml" id="java_xml"/>
   <dataFormats>
     <jaxb contextPath="com.mohh.nehr" id="commohhnehr"/>
   </dataFormats>
   <route>
-<!--     <from uri="file:///home/virtuser/projects/ihis/data/file?noop=true"/>
- -->   
     <from uri="file:///tmp/hl7-example/?delete=true&amp;moveFailed=.error&amp;antInclude=*.med"/>
     <log message="${body}"/>
     <to uri="bean:processBean?method=convertToPOJO"/>
@@ -67,11 +66,14 @@
     <to ref="java_xml"/>
     <log message="called"/>
     <log message="${body}"/>
-     <wireTap uri="direct:tap"/>
-     
+    <wireTap uri="direct:tap">
+      <body>
+        <simple></simple>
+      </body>
+    </wireTap>
     <to uri="bean:processBean?method=convert"/>
     <to uri="cxf:bean:soapMessageEndpoint"/>
-   </route>
+  </route>
   <route>
     <from uri="direct:tap"/>
     <log message="saving to db"/>
